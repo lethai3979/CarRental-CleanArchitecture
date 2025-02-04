@@ -36,7 +36,7 @@ namespace Domain.Bookings
         public DateTime ReturnDate { get; private set; }
         public BookingStatus Status { get; private set; }
         public CarId CarId { get; private set; }
-        public PromotionId PromotionId { get; private set; }
+        public PromotionId? PromotionId { get; private set; }
         public string UserId { get; private set; }
         public static Booking Create(BookingId id,
                                     decimal totalPrice,
@@ -44,7 +44,7 @@ namespace Domain.Bookings
                                     DateTime returnDate,
                                     CarId carId,
                                     string userId,
-                                    PromotionId promotionId = null!)
+                                    PromotionId promotionId)
         {
             if (totalPrice <= 0)
             {
