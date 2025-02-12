@@ -1,4 +1,4 @@
-﻿using Domain.Shared;
+﻿using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +70,11 @@ namespace Domain.Promotions
             }
             StartDate = newStartDate;
             ExpireDate = newExpireDate;
+        }
+
+        public bool IsActive()
+        {
+            return !IsDeleted && ExpireDate > DateTime.Now ;
         }
     }
 }

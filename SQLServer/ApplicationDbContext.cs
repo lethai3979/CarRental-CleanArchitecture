@@ -2,6 +2,7 @@
 using Domain.Cars;
 using Domain.CarTypes;
 using Domain.Companies;
+using Domain.Invoices;
 using Domain.Promotions;
 using Domain.Users;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ namespace SQLServer
         public DbSet<Promotion> Promotions { get; set; } = null!;
         public DbSet<Car> Cars { get; set; } = null!;
         public DbSet<Booking> Bookings { get; set; } = null!;
+        public DbSet<Invoice> Invoices { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

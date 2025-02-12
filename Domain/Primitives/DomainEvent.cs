@@ -1,11 +1,11 @@
-﻿using Domain.Primitives;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Cars
+namespace Domain.Primitives
 {
-    public record CarId(Guid value) : EntityId(value);
+    public record DomainEvent(Guid Id) : INotification;
 }

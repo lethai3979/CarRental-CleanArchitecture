@@ -1,12 +1,11 @@
 ﻿using Domain.Primitives;
-using Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Bookings
+namespace Domain.Invoices
 {
-    public record BookingId(Guid value) : EntityId(value);
+    public sealed record InvoiceId(Guid value) : EntityId(value);
 }

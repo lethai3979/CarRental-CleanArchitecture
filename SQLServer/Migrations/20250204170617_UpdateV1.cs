@@ -28,7 +28,7 @@ namespace SQLServer.Migrations
                 table: "Bookings",
                 column: "PromotionId",
                 principalTable: "Promotions",
-                principalColumn: "Id");
+                principalColumn: "EntityId");
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace SQLServer.Migrations
                 table: "Bookings",
                 column: "PromotionId",
                 principalTable: "Promotions",
-                principalColumn: "Id",
+                principalColumn: "EntityId",
                 onDelete: ReferentialAction.Cascade);
         }
     }

@@ -12,8 +12,8 @@ using SQLServer;
 namespace SQLServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250204170617_UpdateV1")]
-    partial class UpdateV1
+    [Migration("20250205135051_UpdateV3")]
+    partial class UpdateV3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace SQLServer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -59,6 +62,10 @@ namespace SQLServer.Migrations
                     b.HasKey("EntityId");
 
                     b.HasIndex("CarId");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.HasIndex("PromotionId");
 
@@ -132,6 +139,28 @@ namespace SQLServer.Migrations
                     b.HasKey("EntityId");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Domain.Invoices.Invoice", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Domain.Promotions.Promotion", b =>
@@ -376,6 +405,10 @@ namespace SQLServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Invoices.Invoice", "Invoice")
+                        .WithOne("Booking")
+                        .HasForeignKey("Domain.Bookings.Booking", "InvoiceId");
+
                     b.HasOne("Domain.Promotions.Promotion", null)
                         .WithMany()
                         .HasForeignKey("PromotionId");
@@ -385,6 +418,8 @@ namespace SQLServer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Domain.Cars.Car", b =>
@@ -450,6 +485,12 @@ namespace SQLServer.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Invoices.Invoice", b =>
+                {
+                    b.Navigation("Booking")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

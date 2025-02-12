@@ -1,4 +1,4 @@
-﻿using Domain.Shared;
+﻿using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace SQLServer.Repositories
 {
     public abstract class GenericRepository<TEntity, EntityId> 
         where TEntity : BaseEntity<EntityId>
-        where EntityId : class
+        where EntityId : Domain.Primitives.EntityId
     {
         protected ApplicationDbContext context;
 

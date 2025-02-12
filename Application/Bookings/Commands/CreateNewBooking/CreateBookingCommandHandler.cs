@@ -1,6 +1,7 @@
 ﻿using Application.Abstraction.Commands;
 using Application.UnitOfWork;
 using Domain.Bookings;
+using Domain.Promotions;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Bookings.Commands
+namespace Application.Bookings.Commands.CreateNewBooking
 {
     internal sealed class CreateBookingCommandHandler : ICommandHandler<CreateBookingCommand, Result>
     {
@@ -24,6 +25,18 @@ namespace Application.Bookings.Commands
         {
             try
             {
+                var promotion = await _unitOfWork.PromotionRepository.GetById(request.PromotionId);
+
+                if (promotion == null)
+                {
+                    return Result.FailureResult(Error.NotFound("Promotion not found"));
+                }
+
+                if (promotion.IsActive())
+                {
+                    return Result.FailureResult(Error.BadRequest("Promotion deactivate"));
+                }
+
                 var booking = Booking.Create
                 (
                     new BookingId(Guid.NewGuid()),
@@ -38,13 +51,13 @@ namespace Application.Bookings.Commands
                 await _unitOfWork.SaveChangesAsync();
                 return Result.SuccessResult();
             }
-            catch(DbUpdateException dbEx)
+            catch (DbUpdateException dbEx)
             {
-                return Result.FailureResult(Error.OperationFailed(dbEx.Message));   
+                return Result.FailureResult(Error.OperationFailed(dbEx.Message));
             }
             catch (Exception ex)
             {
-                return Result.FailureResult(Error.BadRequest(ex.Message));  
+                return Result.FailureResult(Error.BadRequest(ex.Message));
             }
 
         }

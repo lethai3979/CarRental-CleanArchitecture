@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.CarTypes
+namespace Domain.Invoices
 {
-    public interface ICarTypeRepository : IGenericRepository<CarType, CarTypeId>
+    public interface IInvoiceRepository : IGenericRepository<Invoice, InvoiceId> 
     {
+
     }
 }

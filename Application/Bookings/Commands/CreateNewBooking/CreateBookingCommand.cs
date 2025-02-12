@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Bookings.Commands
+namespace Application.Bookings.Commands.CreateNewBooking
 {
     public sealed record CreateBookingCommand : ICommand<Result>
     {

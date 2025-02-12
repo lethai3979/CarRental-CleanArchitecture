@@ -1,6 +1,7 @@
 ﻿using Domain.Cars;
+using Domain.Invoices;
+using Domain.Primitives;
 using Domain.Promotions;
-using Domain.Shared;
 using Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Domain.Bookings
                         BookingStatus status,
                         CarId carId,
                         string userId,
-                        PromotionId promotionId) : base(id)
+                        PromotionId? promotionId) : base(id)
         {
             TotalPrice = totalPrice;
             RecieveDate = recieveDate;
@@ -37,6 +38,8 @@ namespace Domain.Bookings
         public BookingStatus Status { get; private set; }
         public CarId CarId { get; private set; }
         public PromotionId? PromotionId { get; private set; }
+        public InvoiceId? InvoiceId { get; private set; }
+        public Invoice? Invoice { get; private set; }
         public string UserId { get; private set; }
         public static Booking Create(BookingId id,
                                     decimal totalPrice,
@@ -44,7 +47,7 @@ namespace Domain.Bookings
                                     DateTime returnDate,
                                     CarId carId,
                                     string userId,
-                                    PromotionId promotionId)
+                                    PromotionId? promotionId)
         {
             if (totalPrice <= 0)
             {
@@ -83,17 +86,19 @@ namespace Domain.Bookings
             Status = newStatus;
         }
 
-        public void ApplyPromotion(Promotion promotion)
+        public void ApplyPromotion(PromotionId promotionId)
         {
-            if(promotion is null)
+            PromotionId = promotionId;
+        }
+
+        public void ApplyInvoice(Invoice invoice)
+        {
+            if(invoice.BookingId != Id)
             {
-                throw new NullReferenceException("Promotion must not be null");
-            }
-            if(promotion.ExpireDate < DateTime.Now)
-            {
-                throw new InvalidDataException("Promotion has expired");
-            }
-            PromotionId = promotion.Id;
+                throw new InvalidOperationException("The invoice does not match the booking");
+            }    
+            InvoiceId = invoice.Id;
+            Invoice = invoice;
         }
 
         public void UpdateDates(DateTime newRecieveDate, DateTime newReturnDate)

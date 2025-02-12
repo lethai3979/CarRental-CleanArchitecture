@@ -27,7 +27,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.Bookings.Booking", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CarId")
@@ -56,7 +56,7 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("CarId");
 
@@ -69,7 +69,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.CarTypes.CarType", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -79,14 +79,14 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.ToTable("CarTypes");
                 });
 
             modelBuilder.Entity("Domain.Cars.Car", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CarTypeId")
@@ -108,7 +108,7 @@ namespace SQLServer.Migrations
                     b.Property<int>("Seat")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("CarTypeId");
 
@@ -119,7 +119,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.Companies.Company", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -129,14 +129,14 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("Domain.Promotions.Promotion", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -155,14 +155,14 @@ namespace SQLServer.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("Domain.Users.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("EntityId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
@@ -222,7 +222,7 @@ namespace SQLServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -237,7 +237,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("EntityId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -252,7 +252,7 @@ namespace SQLServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -264,11 +264,11 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EntityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EntityId"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -280,7 +280,7 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("RoleId");
 
@@ -289,11 +289,11 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EntityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EntityId"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -305,7 +305,7 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntityId");
 
                     b.HasIndex("UserId");
 

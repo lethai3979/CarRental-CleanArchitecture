@@ -1,14 +1,14 @@
-﻿using Domain;
-using Domain.Shared;
+﻿using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Shared
+namespace Domain.Abstraction
 {
     public interface IGenericRepository<TEntity, TEntityId> where TEntity : BaseEntity<TEntityId>
+        where TEntityId : EntityId
     {
         Task<TEntity?> GetById(TEntityId id);
         Task<List<TEntity>> GetAll();

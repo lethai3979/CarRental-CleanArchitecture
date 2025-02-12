@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Domain.CarTypes
 {
-    public record CarTypeId(Guid value);
+    public record CarTypeId(Guid value) : EntityId(value);
 }

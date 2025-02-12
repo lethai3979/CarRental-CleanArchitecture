@@ -1,6 +1,7 @@
 ﻿using Domain.Bookings;
 using Domain.Cars;
 using Domain.CarTypes;
+using Domain.Invoices;
 using Domain.Promotions;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +36,10 @@ namespace SQLServer.Configuration
                    .WithMany()
                    .HasForeignKey(b => b.CarId)
                    .IsRequired();
+
+            builder.HasOne(b => b.Invoice)
+                    .WithOne(i => i.Booking)
+                    .HasForeignKey<Booking>(b => b.InvoiceId);
 
             builder.HasOne<Promotion>()
                    .WithMany()

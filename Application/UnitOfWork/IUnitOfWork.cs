@@ -2,6 +2,7 @@
 using Domain.Cars;
 using Domain.CarTypes;
 using Domain.Companies;
+using Domain.Invoices;
 using Domain.Promotions;
 using Domain.Users;
 using System;
@@ -20,6 +21,7 @@ namespace Application.UnitOfWork
         ICarTypeRepository CarTypeRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         IUserRepository UserRepository { get; }
+        IInvoiceRepository InvoiceRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }

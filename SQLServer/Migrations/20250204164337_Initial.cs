@@ -112,7 +112,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -133,7 +133,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -153,7 +153,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -171,13 +171,13 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -197,7 +197,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -220,13 +220,13 @@ namespace SQLServer.Migrations
                         name: "FK_Cars_CarTypes_CarTypeId",
                         column: x => x.CarTypeId,
                         principalTable: "CarTypes",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cars_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -251,19 +251,19 @@ namespace SQLServer.Migrations
                         name: "FK_Bookings_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Cars_CarId",
                         column: x => x.CarId,
                         principalTable: "Cars",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Promotions_PromotionId",
                         column: x => x.PromotionId,
                         principalTable: "Promotions",
-                        principalColumn: "Id",
+                        principalColumn: "EntityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
