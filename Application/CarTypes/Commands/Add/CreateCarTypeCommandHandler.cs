@@ -19,7 +19,7 @@ namespace Application.CarTypes.Commands.Add
         {
             try
             {
-                if (request.Name == null)
+                if (string.IsNullOrEmpty(request.Name))
                 {
                     return Result.FailureResult(Error.InvalidData("Name is required"));
                 }

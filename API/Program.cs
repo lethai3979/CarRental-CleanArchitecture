@@ -1,13 +1,8 @@
-﻿using API.Authentication;
+﻿using API.OptionSetup;
 using Application;
-using Application.Abstraction.Authentication;
-using Domain.Users;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using SQLServer;
-using System.Data;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration
@@ -15,10 +10,15 @@ var connection = builder.Configuration
                         ?? throw new InvalidOperationException("Connection String not found");
 
 // Add services to the container.
-builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 builder.Services.AddApplication();
 builder.Services.AddSQLServer(connection);
 builder.Services.AddControllers();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.ConfigureOptions<JWTOptionSetup>();
+builder.Services.ConfigureOptions<JWTBearerOptionSetup>();
+
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

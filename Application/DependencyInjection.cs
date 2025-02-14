@@ -13,6 +13,7 @@ namespace Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
             services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+
         }
     }
 }

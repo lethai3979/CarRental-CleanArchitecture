@@ -1,13 +1,16 @@
-﻿using Application.UnitOfWork;
+﻿using Application.Abstraction.Authentication;
+using Application.UnitOfWork;
 using Domain.Bookings;
 using Domain.Cars;
 using Domain.CarTypes;
 using Domain.Companies;
+using Domain.Invoices;
 using Domain.Promotions;
 using Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SQLServer.Authentication;
 using SQLServer.Repositories;
 using SQLServer.UnitOfWorks;
 using System;
@@ -33,11 +36,18 @@ namespace SQLServer
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IJWTProvider, JWTProvider>();
 
-            services.AddIdentity<User, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
+
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
         }
     }
 }

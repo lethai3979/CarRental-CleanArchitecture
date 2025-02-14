@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Domain.CarTypes
 {
-    public record CarTypeId(Guid value) : EntityId(value);
+    public record CarTypeId(Guid Value) : EntityId(Value);
 }

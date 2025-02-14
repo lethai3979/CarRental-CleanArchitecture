@@ -19,7 +19,7 @@ namespace SQLServer.Repositories
         }
         public async Task Add(User user, string password)
         {
-           await _userManager.CreateAsync(user, password);
+           var result = await _userManager.CreateAsync(user, password);
         }
 
         public async Task Delete(User user)

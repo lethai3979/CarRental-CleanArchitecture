@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SQLServer.Migrations
 {
     /// <inheritdoc />
@@ -80,6 +82,21 @@ namespace SQLServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Promotions",
                 columns: table => new
                 {
@@ -112,7 +129,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -133,7 +150,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -153,7 +170,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -171,13 +188,13 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -197,7 +214,7 @@ namespace SQLServer.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -220,13 +237,13 @@ namespace SQLServer.Migrations
                         name: "FK_Cars_CarTypes_CarTypeId",
                         column: x => x.CarTypeId,
                         principalTable: "CarTypes",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cars_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -240,7 +257,8 @@ namespace SQLServer.Migrations
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -251,20 +269,48 @@ namespace SQLServer.Migrations
                         name: "FK_Bookings_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Cars_CarId",
                         column: x => x.CarId,
                         principalTable: "Cars",
-                        principalColumn: "EntityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bookings_Promotions_PromotionId",
                         column: x => x.PromotionId,
                         principalTable: "Promotions",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "CarTypes",
+                columns: new[] { "Id", "IsDeleted", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("52dbac8a-2172-48b7-b5bd-a2a779432485"), false, "Sedan" },
+                    { new Guid("6ecd3f9e-0aea-46d8-b724-5ea434e65ba3"), false, "Hatchback" },
+                    { new Guid("c5d96421-0e62-4566-81b0-4643936fe1a6"), false, "Crossover" },
+                    { new Guid("c8924dd8-d47a-4c70-9ee5-e1f67729e0fd"), false, "Pickup" },
+                    { new Guid("d18886ca-295a-4580-8791-c0e397043762"), false, "SUV" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Companies",
+                columns: new[] { "Id", "IsDeleted", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("38d580f1-a82d-4109-8239-26dcf7aa5b6f"), false, "Suzuki" },
+                    { new Guid("4b187170-543e-451f-81d3-3ccb6c97cd88"), false, "Honda" },
+                    { new Guid("be94633f-cf75-4005-a65c-7a40c2d3d6cc"), false, "Toyota" },
+                    { new Guid("d287924a-066f-4098-8410-e66141baf43f"), false, "KIA" },
+                    { new Guid("ed578cc4-1bcb-468b-a14e-db8fe4cae048"), false, "Mazda" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -310,6 +356,13 @@ namespace SQLServer.Migrations
                 name: "IX_Bookings_CarId",
                 table: "Bookings",
                 column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_InvoiceId",
+                table: "Bookings",
+                column: "InvoiceId",
+                unique: true,
+                filter: "[InvoiceId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_PromotionId",
@@ -361,6 +414,9 @@ namespace SQLServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Promotions");

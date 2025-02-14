@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Primitives
 {
-    public record EntityId(Guid Id);
+    public record EntityId(Guid Value);
 }

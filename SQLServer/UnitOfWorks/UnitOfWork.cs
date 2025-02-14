@@ -61,15 +61,16 @@ namespace SQLServer.UnitOfWorks
             _context.SaveChanges();
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
             var eventEntities = _context.ChangeTracker.Entries<BaseEntity<EntityId>>() 
                 .Where(e => e.Entity.domainEvents.Any())
                 .Select(e => e.Entity)
                 .ToList();
             var domainEvents = eventEntities.SelectMany(e => e.domainEvents).ToList();
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
             await DispatchDomainEventAsync(eventEntities);
+            return result;
         }
 
         private async Task DispatchDomainEventAsync(List<BaseEntity<EntityId>> eventEntities)

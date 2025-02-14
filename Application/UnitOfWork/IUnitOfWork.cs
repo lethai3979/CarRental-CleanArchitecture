@@ -23,6 +23,6 @@ namespace Application.UnitOfWork
         IUserRepository UserRepository { get; }
         IInvoiceRepository InvoiceRepository { get; }
         void SaveChanges();
-        Task SaveChangesAsync();
+        Task<int> SaveChangesAsync();
     }
 }

@@ -12,8 +12,8 @@ using SQLServer;
 namespace SQLServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250204170617_UpdateV1")]
-    partial class UpdateV1
+    [Migration("20250214100552_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,10 +27,13 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.Bookings.Booking", b =>
                 {
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -56,9 +59,13 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CarId");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.HasIndex("PromotionId");
 
@@ -69,7 +76,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.CarTypes.CarType", b =>
                 {
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -79,14 +86,46 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.ToTable("CarTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("52dbac8a-2172-48b7-b5bd-a2a779432485"),
+                            IsDeleted = false,
+                            Name = "Sedan"
+                        },
+                        new
+                        {
+                            Id = new Guid("d18886ca-295a-4580-8791-c0e397043762"),
+                            IsDeleted = false,
+                            Name = "SUV"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ecd3f9e-0aea-46d8-b724-5ea434e65ba3"),
+                            IsDeleted = false,
+                            Name = "Hatchback"
+                        },
+                        new
+                        {
+                            Id = new Guid("c5d96421-0e62-4566-81b0-4643936fe1a6"),
+                            IsDeleted = false,
+                            Name = "Crossover"
+                        },
+                        new
+                        {
+                            Id = new Guid("c8924dd8-d47a-4c70-9ee5-e1f67729e0fd"),
+                            IsDeleted = false,
+                            Name = "Pickup"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Cars.Car", b =>
                 {
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CarTypeId")
@@ -108,7 +147,7 @@ namespace SQLServer.Migrations
                     b.Property<int>("Seat")
                         .HasColumnType("int");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CarTypeId");
 
@@ -119,7 +158,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Domain.Companies.Company", b =>
                 {
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -129,14 +168,68 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("be94633f-cf75-4005-a65c-7a40c2d3d6cc"),
+                            IsDeleted = false,
+                            Name = "Toyota"
+                        },
+                        new
+                        {
+                            Id = new Guid("4b187170-543e-451f-81d3-3ccb6c97cd88"),
+                            IsDeleted = false,
+                            Name = "Honda"
+                        },
+                        new
+                        {
+                            Id = new Guid("38d580f1-a82d-4109-8239-26dcf7aa5b6f"),
+                            IsDeleted = false,
+                            Name = "Suzuki"
+                        },
+                        new
+                        {
+                            Id = new Guid("d287924a-066f-4098-8410-e66141baf43f"),
+                            IsDeleted = false,
+                            Name = "KIA"
+                        },
+                        new
+                        {
+                            Id = new Guid("ed578cc4-1bcb-468b-a14e-db8fe4cae048"),
+                            IsDeleted = false,
+                            Name = "Mazda"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Invoices.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Domain.Promotions.Promotion", b =>
                 {
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -155,14 +248,14 @@ namespace SQLServer.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("Domain.Users.User", b =>
                 {
-                    b.Property<string>("EntityId")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
@@ -222,7 +315,7 @@ namespace SQLServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -237,7 +330,7 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("EntityId")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -252,7 +345,7 @@ namespace SQLServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -264,11 +357,11 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("EntityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EntityId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -280,7 +373,7 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
@@ -289,11 +382,11 @@ namespace SQLServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("EntityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EntityId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -305,7 +398,7 @@ namespace SQLServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("EntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -376,6 +469,10 @@ namespace SQLServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Invoices.Invoice", "Invoice")
+                        .WithOne("Booking")
+                        .HasForeignKey("Domain.Bookings.Booking", "InvoiceId");
+
                     b.HasOne("Domain.Promotions.Promotion", null)
                         .WithMany()
                         .HasForeignKey("PromotionId");
@@ -385,6 +482,8 @@ namespace SQLServer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Domain.Cars.Car", b =>
@@ -450,6 +549,12 @@ namespace SQLServer.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Invoices.Invoice", b =>
+                {
+                    b.Navigation("Booking")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

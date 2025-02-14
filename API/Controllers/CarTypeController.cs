@@ -19,7 +19,7 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<List<CarType>>> GetAll()
         {
             var request = new GetAllCarTypesQuery();
@@ -28,12 +28,12 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<ActionResult<Result>> Add(CreateCarTypeCommand request)
         {
-            await _mediator.Send(request);
+            var result = await _mediator.Send(request);
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

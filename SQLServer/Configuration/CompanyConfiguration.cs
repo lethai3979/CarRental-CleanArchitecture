@@ -1,4 +1,5 @@
-﻿using Domain.Companies;
+﻿using Domain.CarTypes;
+using Domain.Companies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -17,6 +18,14 @@ namespace SQLServer.Configuration
             builder.Property(c => c.Id).HasConversion(
                 companyId => companyId.value,
                 value => new CompanyId(value));
+
+            builder.HasData(
+                new Company(new CompanyId(Guid.NewGuid()), "Toyota"),
+                new Company(new CompanyId(Guid.NewGuid()), "Honda"),
+                new Company(new CompanyId(Guid.NewGuid()), "Suzuki"),
+                new Company(new CompanyId(Guid.NewGuid()), "KIA"),
+                new Company(new CompanyId(Guid.NewGuid()), "Mazda")
+            );
         }
     }
 }
