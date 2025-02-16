@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Domain.Users
 {
     public interface IUserRepository
     {
-        Task Add(User user, string password);
-        Task Update(User user);
-        Task Delete(User user);
+        Task<IdentityResult> Add(User user, string password);
+        Task<IdentityResult> Update(User user);
+        Task<IdentityResult> Delete(User user);
         Task<User?> FindById(string id);
         Task<User?> FindByEmail(string email);
         Task<bool> CheckPassword(User user, string password);

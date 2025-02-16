@@ -32,8 +32,11 @@ namespace Application.Users.Commands.Register
                     PhoneNumber = request.PhoneNumber,
                     Address = request.Address
                 };
-                await _unitOfWork.UserRepository.Add(user, request.Password);
-                await _unitOfWork.SaveChangesAsync();
+                var result =  await _unitOfWork.UserRepository.Add(user, request.Password);
+                if (!result.Succeeded)
+                {
+                    return Result.FailureResult(Error.BadRequest(string.Join("; ", result.Errors.Select(e => e.Description))));
+                }
                 return Result.SuccessResult();
             }
             catch (Exception ex)

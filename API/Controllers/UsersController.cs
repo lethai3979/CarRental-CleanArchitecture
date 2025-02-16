@@ -25,7 +25,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public async Task<ActionResult<Result>> Login(LoginCommand command)
         {
             var result = await _mediator.Send(command);

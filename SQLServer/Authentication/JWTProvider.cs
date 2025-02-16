@@ -34,7 +34,7 @@ namespace SQLServer.Authentication
                 (
                     Encoding.UTF8.GetBytes(_jwtOption.SecretKey)
                 ),
-                SecurityAlgorithms.HmacSha256
+                SecurityAlgorithms.HmacSha256Signature
             );
 
             var token = new JwtSecurityToken

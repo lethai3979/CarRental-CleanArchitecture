@@ -43,6 +43,7 @@ namespace SQLServer
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
+                //options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
             })

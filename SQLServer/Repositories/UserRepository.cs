@@ -17,14 +17,15 @@ namespace SQLServer.Repositories
         {
             _userManager = userManager;
         }
-        public async Task Add(User user, string password)
+        public async Task<IdentityResult> Add(User user, string password)
         {
-           var result = await _userManager.CreateAsync(user, password);
+           return await _userManager.CreateAsync(user, password);
+
         }
 
-        public async Task Delete(User user)
+        public async Task<IdentityResult> Delete(User user)
         {
-            await _userManager.DeleteAsync(user);
+            return await _userManager.DeleteAsync(user);
         }
 
         public async Task<User?> FindByEmail(string email)
@@ -51,9 +52,9 @@ namespace SQLServer.Repositories
             return isCorrect;
         }
 
-        public async Task Update(User user)
+        public async Task<IdentityResult> Update(User user)
         {
-            await _userManager.UpdateAsync(user);
+            return await _userManager.UpdateAsync(user);
         }
     }
 }

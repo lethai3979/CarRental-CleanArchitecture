@@ -10,9 +10,9 @@ namespace API.OptionSetup
     {
         private readonly JWTOption _jwtOption;
 
-        public JWTBearerOptionSetup(JWTOption jwtOption)
+        public JWTBearerOptionSetup(IOptions<JWTOption> jwtOption)
         {
-            _jwtOption = jwtOption;
+            _jwtOption = jwtOption.Value;
         }
 
         public void Configure(JwtBearerOptions options)

@@ -18,14 +18,6 @@ namespace SQLServer.Configuration
                 carTypeId => carTypeId.Value,
                 value => new CarTypeId(value));
             builder.Property(c => c.Id);
-
-            builder.HasData(
-                new CarType(new CarTypeId(Guid.NewGuid()), "Sedan"),
-                new CarType(new CarTypeId(Guid.NewGuid()), "SUV"),
-                new CarType(new CarTypeId(Guid.NewGuid()), "Hatchback"),
-                new CarType(new CarTypeId(Guid.NewGuid()), "Crossover"),
-                new CarType(new CarTypeId(Guid.NewGuid()), "Pickup")
-            );
         }
     }
 }

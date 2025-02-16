@@ -38,7 +38,6 @@ namespace Application.Users.Commands.Login
             var token = _jwtProvider.GenerateToken(user);
 
             return Result<string>.SuccessResult(token);
-
         }
     }
 }
