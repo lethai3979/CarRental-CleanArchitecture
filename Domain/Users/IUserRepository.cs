@@ -10,6 +10,7 @@ namespace Domain.Users
     public interface IUserRepository
     {
         Task<IdentityResult> Add(User user, string password);
+        Task<IdentityResult> SetUserRole(User user, string role);
         Task<IdentityResult> Update(User user);
         Task<IdentityResult> Delete(User user);
         Task<User?> FindById(string id);

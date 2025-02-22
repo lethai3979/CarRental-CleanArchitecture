@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Promotions.Queries.GetAll
 {
-    internal class GetAllPromotionQueryHandler : IQueryHandler<GetAllPromotionQuery, Result>
+    internal class GetAllPromotionQueryHandler : IQueryHandler<GetAllPromotionQuery, Result<List<Promotion>>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ namespace Application.Promotions.Queries.GetAll
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(GetAllPromotionQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<Promotion>>> Handle(GetAllPromotionQuery request, CancellationToken cancellationToken)
         {
             var promotions = await _unitOfWork.PromotionRepository.GetAll();
             return Result<List<Promotion>>.SuccessResult(promotions);

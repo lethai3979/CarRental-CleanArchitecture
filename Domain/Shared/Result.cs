@@ -1,8 +1,11 @@
-﻿namespace Domain.Shared
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Shared
 {
     public class Result
     {
         public bool Success { get; init; }
+        [JsonIgnore]
         public bool Failure => !Success;
         public Error Error { get; }
 
@@ -32,5 +35,6 @@
         }
 
         public static Result<T> SuccessResult(T data) => new(true, Error.None, data);
+        public new static Result<T> FailureResult(Error error) => new(false, error);
     }
 }

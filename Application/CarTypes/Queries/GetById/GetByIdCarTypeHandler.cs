@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CarTypes.Queries.GetById
 {
-    internal sealed class GetByIdCarTypeHandler : IQueryHandler<GetByIdCarTypeQuery, Result>
+    internal sealed class GetByIdCarTypeHandler : IQueryHandler<GetByIdCarTypeQuery, Result<CarType>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ namespace Application.CarTypes.Queries.GetById
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(GetByIdCarTypeQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CarType>> Handle(GetByIdCarTypeQuery request, CancellationToken cancellationToken)
         {
             var carType = await _unitOfWork.CarTypeRepository.GetById(request.Id);
             if (carType == null)

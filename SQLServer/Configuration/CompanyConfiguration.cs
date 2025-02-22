@@ -16,7 +16,7 @@ namespace SQLServer.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.Property(c => c.Id).HasConversion(
-                companyId => companyId.value,
+                companyId => companyId.Value,
                 value => new CompanyId(value));
         }
     }

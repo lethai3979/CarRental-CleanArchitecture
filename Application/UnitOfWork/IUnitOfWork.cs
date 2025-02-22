@@ -5,8 +5,10 @@ using Domain.Companies;
 using Domain.Invoices;
 using Domain.Promotions;
 using Domain.Users;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,5 +26,6 @@ namespace Application.UnitOfWork
         IInvoiceRepository InvoiceRepository { get; }
         void SaveChanges();
         Task<int> SaveChangesAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

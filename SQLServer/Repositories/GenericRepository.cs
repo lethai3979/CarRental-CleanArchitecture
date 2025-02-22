@@ -12,7 +12,7 @@ namespace SQLServer.Repositories
         where TEntity : BaseEntity<EntityId>
         where EntityId : Domain.Primitives.EntityId
     {
-        protected ApplicationDbContext context;
+        protected readonly ApplicationDbContext context;
 
         protected GenericRepository(ApplicationDbContext context)
         {

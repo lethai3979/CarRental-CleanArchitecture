@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Queries
 {
-    internal class FindUserByEmailQueryHandler : IQueryHandler<FindUserByEmailQuery, Result>
+    internal class FindUserByEmailQueryHandler : IQueryHandler<FindUserByEmailQuery, Result<User>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,12 +20,12 @@ namespace Application.Users.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(FindUserByEmailQuery request, CancellationToken cancellationToken)
+        public async Task<Result<User>> Handle(FindUserByEmailQuery request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.FindByEmail(request.Email);
             if (user == null)
             {
-                return Result.FailureResult(Error.NotFound("User not found"));
+                return Result<User>.FailureResult(Error.NotFound("User not found"));
             }
             return Result<User>.SuccessResult(user);
         }

@@ -3,6 +3,7 @@ using Domain.Companies;
 using Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,23 +16,24 @@ namespace SQLServer
     public class ApplicationDbContextSeed
     {
 
-        public static async Task SeedDataAsync(ApplicationDbContext context)
-        { 
-            await SeedRolesAsync(context);
+        public static async Task SeedDataAsync(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            await SeedRolesAsync(roleManager);
+            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
             await SeedCarTypesAsync(context);
             await SeedCompaniesAsync(context);
         }
 
-        private static async Task SeedRolesAsync(ApplicationDbContext context)
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            var roles = Role.AllDomainRoles;
-            if (!await context.Roles.AnyAsync())
+            var roles = Role.AllRoles;
+            foreach (var role in roles)
             {
-                foreach (var role in roles)
+                if(!await roleManager.RoleExistsAsync(role))
                 {
-                    await context.Roles.AddAsync(new IdentityRole(role));
-                }
-                await context.SaveChangesAsync();
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }    
             }
         }
 

@@ -10,5 +10,6 @@ namespace Domain.Bookings
 {
     public interface IBookingRepository : IGenericRepository<Booking, BookingId>
     {
+        Task<List<Booking>> GetAllByUserId(string userId);
     }
 }

@@ -19,7 +19,7 @@ namespace SQLServer.Configuration
 
             builder.Property(c => c.Id)
                     .HasConversion(
-                carId => carId.value,
+                carId => carId.Value,
                 value => new CarId(value));
 
             builder.HasOne<CarType>()

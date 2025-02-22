@@ -12,10 +12,12 @@ namespace SQLServer.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserRepository(UserManager<User> userManager)
+        public UserRepository(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task<IdentityResult> Add(User user, string password)
         {
@@ -55,6 +57,11 @@ namespace SQLServer.Repositories
         public async Task<IdentityResult> Update(User user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IdentityResult> SetUserRole(User user, string role)
+        {
+            return await _userManager.AddToRoleAsync(user, role);
         }
     }
 }

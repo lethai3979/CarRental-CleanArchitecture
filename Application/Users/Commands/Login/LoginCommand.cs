@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.Login
 {
-    public sealed record LoginCommand : ICommand<Result>
+    public sealed record LoginCommand : ICommand<Result<string>>
     {
         public required string Email { get; set; }
         public required string Password { get; set; }

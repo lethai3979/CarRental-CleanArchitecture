@@ -10,8 +10,10 @@ using Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +57,12 @@ namespace SQLServer.UnitOfWorks
         public IBookingRepository BookingRepository { get; }
         public IUserRepository UserRepository { get; }
         public IInvoiceRepository InvoiceRepository { get; }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            var trasation = await _context.Database.BeginTransactionAsync();
+            return trasation;
+        }
 
         public void SaveChanges()
         {

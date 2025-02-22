@@ -1,8 +1,12 @@
-﻿using Application.CarTypes.Commands.Add;
+﻿using API.Extensions;
+using Application.CarTypes.Commands.Add;
+using Application.CarTypes.Queries;
 using Application.CarTypes.Queries.GetAll;
 using Domain.CarTypes;
 using Domain.Shared;
+using Domain.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,21 +23,34 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpGet("GetAll")]
-        public async Task<ActionResult<List<CarType>>> GetAll()
+        public async Task<IResult> GetAll()
         {
             var request = new GetAllCarTypesQuery();
             var result = await _mediator.Send(request);
 
-            return Ok(result);
+            return result.Success ? Results.Ok(result) : result.ToProblemDetails();
         }
 
+        [Authorize(Roles = Role.Admin)]
+        [HttpGet("GetById/{id}")]
+        public async Task<IResult> GetById(string id)
+        {
+            var request = new GetByIdCarTypeQuery(new CarTypeId(new Guid(id)));
+            var result = await _mediator.Send(request);
+
+            return result.Success ? Results.Ok(result.Data) : result.ToProblemDetails();
+        }
+
+        [Authorize(Roles = Role.Admin)]
+
         [HttpPost("Add")]
-        public async Task<ActionResult<Result>> Add(CreateCarTypeCommand request)
+        public async Task<IResult> Add(CreateCarTypeCommand request)
         {
             var result = await _mediator.Send(request);
 
-            return Ok(result);
+            return result.Success ? Results.Ok() : result.ToProblemDetails();
         }
     }
 }

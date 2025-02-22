@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Cars.Queries.GetAll
 {
-    internal sealed class GetAllCarsQueryHandler : IQueryHandler<GetAllCarsQuery, Result>
+    internal sealed class GetAllCarsQueryHandler : IQueryHandler<GetAllCarsQuery, Result<List<Car>>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ namespace Application.Cars.Queries.GetAll
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<Car>>> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
         {
             var cars = await _unitOfWork.CarRepository.GetAll();
             return Result<List<Car>>.SuccessResult(cars);

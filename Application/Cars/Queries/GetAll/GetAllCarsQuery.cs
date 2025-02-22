@@ -9,8 +9,5 @@ using System.Threading.Tasks;
 
 namespace Application.Cars.Queries.GetAll
 {
-    public sealed record GetAllCarsQuery : IQuery<Result>
-    {
-
-    }
+    public sealed record GetAllCarsQuery : IQuery<Result<List<Car>>>;
 }

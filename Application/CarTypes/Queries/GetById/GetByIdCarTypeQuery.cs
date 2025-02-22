@@ -9,8 +9,5 @@ using System.Threading.Tasks;
 
 namespace Application.CarTypes.Queries
 {
-    public sealed record GetByIdCarTypeQuery : IQuery<Result>
-    {
-        public required CarTypeId Id { get; set; }
-    }
+    public sealed record GetByIdCarTypeQuery(CarTypeId Id) : IQuery<Result<CarType>>;
 }

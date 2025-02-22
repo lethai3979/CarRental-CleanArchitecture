@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Companies
 {
-    public record CompanyId(Guid value) : EntityId(value);
+    public record CompanyId(Guid Value) : EntityId(Value);
 }

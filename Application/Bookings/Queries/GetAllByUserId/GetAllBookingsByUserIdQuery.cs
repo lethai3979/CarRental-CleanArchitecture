@@ -1,4 +1,5 @@
 ﻿using Application.Abstraction.Queries;
+using Domain.Bookings;
 using Domain.Shared;
 using Domain.Users;
 using System;
@@ -7,10 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Users.Queries
+namespace Application.Bookings.Queries.GetAllByUserId
 {
-    public sealed record FindUserByEmailQuery : IQuery<Result<User>>
-    {
-        public required string Email { get; set; }
-    }
+    public sealed record GetAllBookingsByUserIdQuery(string UserId) : IQuery<Result<List<Booking>>>;
 }

@@ -49,6 +49,7 @@ namespace SQLServer
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+            services.AddScoped<RoleManager<IdentityRole>>();
         }
     }
 }

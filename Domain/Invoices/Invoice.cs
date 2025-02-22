@@ -37,7 +37,6 @@ namespace Domain.Invoices
                 throw new InvalidDataException("booking id is null");
             }
             var invoice = new Invoice(new InvoiceId(Guid.NewGuid()), createDate, total, bookingId);
-            invoice.Raise(new InvoiceCreatedDomainEvent(Guid.NewGuid(), invoice));
             return invoice;
         }
     }

@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands.Login;
+﻿using API.Extensions;
+using Application.Users.Commands.Login;
 using Application.Users.Commands.Register;
 using Domain.Shared;
 using MediatR;
@@ -19,17 +20,17 @@ namespace API.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<Result>> Register(RegisterCommand command)
+        public async Task<IResult> Register(RegisterCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(result);
+            return result.Success ? Results.Ok(result) : result.ToProblemDetails();
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<Result>> Login(LoginCommand command)
+        public async Task<IResult> Login(LoginCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(result);
+            return result.Success ? Results.Ok(result.Data) : result.ToProblemDetails();
         }
     }
 }

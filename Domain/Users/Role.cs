@@ -12,6 +12,6 @@ namespace Domain.Users
         public const string Customer = "Customer";
         public const string Employee = "Employee";
 
-        public static readonly List<string> AllDomainRoles = new List<string>() { Admin, Customer, Employee};
+        public static readonly List<string> AllRoles = new List<string>() { Admin, Customer, Employee};
     }
 }

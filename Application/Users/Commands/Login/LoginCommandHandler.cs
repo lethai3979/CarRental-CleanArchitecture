@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.Login
 {
-    internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, Result>
+    internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, Result<string>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJWTProvider _jwtProvider;
@@ -21,18 +21,18 @@ namespace Application.Users.Commands.Login
             _jwtProvider = jwtProvider;
         }
 
-        public async Task<Result> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.FindByEmail(request.Email);
             if (user == null)
             {
-                return Result.FailureResult(Error.BadRequest("Wrong email or password"));
+                return Result<string>.FailureResult(Error.BadRequest("Wrong email or password"));
             }
 
             var passwordValid = await _unitOfWork.UserRepository.CheckPassword(user, request.Password);
             if (!passwordValid)
             {
-                return Result.FailureResult(Error.BadRequest("Wrong email or password"));
+                return Result<string>.FailureResult(Error.BadRequest("Wrong email or password"));
             }
 
             var token = _jwtProvider.GenerateToken(user);

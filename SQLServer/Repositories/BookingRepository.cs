@@ -1,4 +1,5 @@
 ﻿using Domain.Bookings;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace SQLServer.Repositories
     {
         public BookingRepository(ApplicationDbContext context) : base(context)
         {
-        } 
+
+        }
+
+        public async Task<List<Booking>> GetAllByUserId(string userId)
+        {
+            return await context.Bookings.Where(b => b.UserId == userId).ToListAsync();
+        }
     }
 }

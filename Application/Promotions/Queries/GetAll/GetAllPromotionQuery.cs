@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Promotions.Queries.GetAll
 {
-    public sealed record GetAllPromotionQuery : IQuery<Result>
+    public sealed record GetAllPromotionQuery : IQuery<Result<List<Promotion>>>
     {
     }
 }

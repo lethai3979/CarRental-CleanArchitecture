@@ -22,6 +22,7 @@ namespace Application.Users.Commands.Register
 
         public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
                 var user = new User
@@ -32,15 +33,26 @@ namespace Application.Users.Commands.Register
                     PhoneNumber = request.PhoneNumber,
                     Address = request.Address
                 };
-                var result =  await _unitOfWork.UserRepository.Add(user, request.Password);
-                if (!result.Succeeded)
+
+
+                var addResult =  await _unitOfWork.UserRepository.Add(user, request.Password);
+                if (!addResult.Succeeded)
                 {
-                    return Result.FailureResult(Error.BadRequest(string.Join("; ", result.Errors.Select(e => e.Description))));
+                    return Result.FailureResult(Error.BadRequest(string.Join("; ", addResult.Errors.Select(e => e.Description))));
                 }
+
+                var setRoleResult = await _unitOfWork.UserRepository.SetUserRole(user, Role.Customer);
+                if (!setRoleResult.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                    return Result.FailureResult(Error.BadRequest(string.Join("; ", setRoleResult.Errors.Select(e => e.Description))));
+                }
+                await transaction.CommitAsync();
                 return Result.SuccessResult();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return Result.FailureResult(Error.BadRequest(ex.Message));
             }
         }
