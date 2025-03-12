@@ -16,7 +16,7 @@ namespace Domain.Shared
             ErrorCode = errorCode;
         }
 
-        public static readonly Error None = new Error(string.Empty, ErrorType.None);
+        public static Error None => new Error(string.Empty, ErrorType.None);
 
         public static Error NotFound(string message) => new Error(message, ErrorType.NotFound);
         public static Error InvalidData(string message) => new Error(message, ErrorType.BadRequest);

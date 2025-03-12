@@ -17,7 +17,7 @@ namespace SQLServer.Configuration
 
             builder.Property(p => p.Id)
                     .HasConversion(
-                promotionId => promotionId.value,
+                promotionId => promotionId.Value,
                 value => new PromotionId(value));
 
             builder.Property(p => p.DiscountValue)

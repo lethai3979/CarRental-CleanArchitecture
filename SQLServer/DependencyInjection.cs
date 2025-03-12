@@ -45,7 +45,7 @@ namespace SQLServer
             {
                 //options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 5;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();

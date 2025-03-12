@@ -17,6 +17,7 @@ namespace Domain.Users
         Task<User?> FindByEmail(string email);
         Task<bool> CheckPassword(User user, string password);
         Task<List<User>> GetAll();
+        Task<IList<string>> GetAllUserRoles(User user);
 
     }
 }

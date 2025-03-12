@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Promotions.Commands.Create
 {
-    internal sealed class CreatePromotionCommand : ICommand<Result>
+    public sealed record CreatePromotionCommand : ICommand<Result>
     {
         public required string Name { get; set; }
         public required double Discount { get; set; }

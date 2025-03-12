@@ -23,7 +23,6 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpGet("GetAll")]
         public async Task<IResult> GetAll()
         {
@@ -33,7 +32,6 @@ namespace API.Controllers
             return result.Success ? Results.Ok(result) : result.ToProblemDetails();
         }
 
-        [Authorize(Roles = Role.Admin)]
         [HttpGet("GetById/{id}")]
         public async Task<IResult> GetById(string id)
         {

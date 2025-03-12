@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Invoices
 {
-    public sealed record InvoiceId(Guid value) : EntityId(value);
+    public sealed record InvoiceId(Guid Value) : EntityId(Value);
 }

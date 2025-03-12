@@ -63,5 +63,10 @@ namespace SQLServer.Repositories
         {
             return await _userManager.AddToRoleAsync(user, role);
         }
+
+        public async Task<IList<string>> GetAllUserRoles(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
     }
 }

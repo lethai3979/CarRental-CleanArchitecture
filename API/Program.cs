@@ -18,6 +18,7 @@ var connection = builder.Configuration
 // Add services to the container.
 builder.Services.AddApplication();
 builder.Services.AddSQLServer(connection);
+builder.Services.AddApplication();
 builder.Services.AddControllers();
 builder.Services.ConfigureOptions<JWTOptionSetup>();
 builder.Services.ConfigureOptions<JWTBearerOptionSetup>();

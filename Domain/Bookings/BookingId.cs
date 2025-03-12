@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Bookings
 {
-    public record BookingId(Guid value) : EntityId(value);
+    public record BookingId(Guid Value) : EntityId(Value);
 }

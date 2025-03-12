@@ -25,7 +25,7 @@ namespace SQLServer.Configuration
 
             builder.Property(b => b.Id)
                    .HasConversion(
-                       bookingId => bookingId.value,
+                       bookingId => bookingId.Value,
                        value => new BookingId(value));
 
             builder.Property(b => b.Status)

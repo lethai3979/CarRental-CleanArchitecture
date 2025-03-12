@@ -18,6 +18,8 @@ namespace API.Extensions
                     {"errors", new [] { result.Error} }
                 });
 
+            #region Local function 
+            //Mapping ErrorType to StatusCode
             static int GetStatusCode(ErrorType errorType)
                 => errorType switch
                 {
@@ -26,6 +28,7 @@ namespace API.Extensions
                     ErrorType.Conflict => StatusCodes.Status409Conflict,
                     _ => StatusCodes.Status500InternalServerError
                 };
+            //Get ErrorType title
             static string GetTitle(ErrorType errorType) 
                 => errorType switch 
                 {
@@ -34,6 +37,7 @@ namespace API.Extensions
                     ErrorType.Conflict => "Conflict",
                     _ => "Server Failure"
                 };
+            #endregion
         }
 
     }

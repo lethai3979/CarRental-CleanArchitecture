@@ -9,6 +9,6 @@ namespace Application.Abstraction.Authentication
 {
     public interface IJWTProvider
     {
-        string GenerateToken(User user);
+        string GenerateToken(User user, IList<string> userRoles);
     }
 }

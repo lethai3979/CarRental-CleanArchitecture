@@ -26,25 +26,32 @@ namespace Application.Bookings.Commands.CreateNewBooking
             try
             {
                 var promotion = await _unitOfWork.PromotionRepository.GetById(request.PromotionId);
-
                 if (promotion == null)
                 {
                     return Result.FailureResult(Error.NotFound("Promotion not found"));
                 }
 
-                if (promotion.IsActive())
+                if (!promotion.IsActive())
                 {
                     return Result.FailureResult(Error.BadRequest("Promotion deactivate"));
                 }
 
+                //Calculate booking total price
+                var car = await _unitOfWork.CarRepository.GetById(request.CarId);
+                if (car == null) 
+                {
+                    return Result.FailureResult(Error.NotFound("Car not found"));
+                }
+                var totalPrice = (decimal)(request.ReturnDate - request.RecieveDate).TotalDays * car.Price;
+
                 var booking = Booking.Create
                 (
                     new BookingId(Guid.NewGuid()),
-                    request.TotalPrice,
+                    totalPrice,
                     request.RecieveDate,
                     request.ReturnDate,
                     request.CarId,
-                    request.UserId,
+                    request.UserId!,
                     request.PromotionId
                 );
                 await _unitOfWork.BookingRepository.Add(booking);

@@ -1,9 +1,7 @@
 ﻿using API.Extensions;
 using Application.Users.Commands.Login;
 using Application.Users.Commands.Register;
-using Domain.Shared;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

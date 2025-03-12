@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Promotions
 {
-    public record PromotionId(Guid value) : EntityId(value);
+    public record PromotionId(Guid Value) : EntityId(Value);
 }

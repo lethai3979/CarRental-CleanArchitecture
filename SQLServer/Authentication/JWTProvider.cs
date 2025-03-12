@@ -17,8 +17,7 @@ namespace SQLServer.Authentication
             _jwtOption = jwtOption.Value;
         }
 
-
-        public string GenerateToken(User user)
+        public string GenerateToken(User user, IList<string> userRoles) 
         {
             var authClaims = new List<Claim>
             {
@@ -27,7 +26,10 @@ namespace SQLServer.Authentication
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id)
             };
-
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim("role", role));
+            }
             var signingCredencials = new SigningCredentials
             (
                 new SymmetricSecurityKey

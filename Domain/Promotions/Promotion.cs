@@ -72,9 +72,10 @@ namespace Domain.Promotions
             ExpireDate = newExpireDate;
         }
 
+        //Check if promotion is expire or delete
         public bool IsActive()
         {
-            return !IsDeleted && ExpireDate > DateTime.Now ;
+            return IsDeleted || ExpireDate > DateTime.Now ;
         }
     }
 }

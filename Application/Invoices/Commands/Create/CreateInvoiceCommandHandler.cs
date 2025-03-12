@@ -29,7 +29,7 @@ namespace Application.Invoices.Commands.Create
                 {
                     return Result.FailureResult(Error.NotFound("Booking not found"));
                 }
-                if (booking.TotalPrice != request.Total)
+                if(booking.TotalPrice != request.Total)
                 {
                     return Result.FailureResult(Error.InvalidData("Total price invalid"));
                 }

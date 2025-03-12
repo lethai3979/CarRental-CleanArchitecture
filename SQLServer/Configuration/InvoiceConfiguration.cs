@@ -18,11 +18,11 @@ namespace SQLServer.Configuration
 
             builder.Property(i => i.Id)
                     .HasConversion(
-                       invoiceId => invoiceId.value,
+                       invoiceId => invoiceId.Value,
                        value => new InvoiceId(value));
 
             builder.Property(i => i.BookingId).HasConversion(
-                       bookingId => bookingId.value,
+                       bookingId => bookingId.Value,
                        value => new BookingId(value)).IsRequired();
         }
     }

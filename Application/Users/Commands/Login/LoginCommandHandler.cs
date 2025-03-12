@@ -34,8 +34,8 @@ namespace Application.Users.Commands.Login
             {
                 return Result<string>.FailureResult(Error.BadRequest("Wrong email or password"));
             }
-
-            var token = _jwtProvider.GenerateToken(user);
+            var userRoles = await _unitOfWork.UserRepository.GetAllUserRoles(user);
+            var token = _jwtProvider.GenerateToken(user, userRoles);
 
             return Result<string>.SuccessResult(token);
         }
