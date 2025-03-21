@@ -8,8 +8,5 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Application.Bookings.Commands.CancelBooking
 {
-    internal class CancelBookingCommand : ICommand<Result>
-    {
-        public required BookingId BookingId { get; set; }
-    }
+    public sealed record CancelBookingCommand(BookingId BookingId) : ICommand<Result>;
 }

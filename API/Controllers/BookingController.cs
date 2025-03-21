@@ -1,6 +1,8 @@
 ﻿using API.Extensions;
+using Application.Bookings.Commands.CancelBooking;
 using Application.Bookings.Commands.CreateNewBooking;
 using Application.Bookings.Queries.GetAllByUserId;
+using Domain.Bookings;
 using Domain.Shared;
 using Domain.Users;
 using MediatR;
@@ -45,6 +47,19 @@ namespace API.Controllers
             command.UserId = _userId;
             var result = await _mediator.Send(command);
             return result.Success ? Results.Ok(result) : result.ToProblemDetails();
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpPut("Cancel/{id}")]
+        public async Task<IResult> Cancel(string id)
+        {
+            if (Guid.TryParse(id, out _) == false)
+            {
+                return Results.BadRequest("Invalid booking id");
+            }
+            var request = new CancelBookingCommand(new BookingId(new Guid(id)));
+            var result = await _mediator.Send(request);
+            return result.Success ? Results.Ok() : result.ToProblemDetails();
         }
     }
 }

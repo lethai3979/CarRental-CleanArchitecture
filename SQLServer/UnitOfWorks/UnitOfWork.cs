@@ -60,8 +60,8 @@ namespace SQLServer.UnitOfWorks
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            var trasation = await _context.Database.BeginTransactionAsync();
-            return trasation;
+            var transation = await _context.Database.BeginTransactionAsync();
+            return transation;
         }
 
         public void SaveChanges()
@@ -87,7 +87,7 @@ namespace SQLServer.UnitOfWorks
             {
                 foreach (var domainEvent in entity.domainEvents)
                 {
-                    await _publisher.Publish(domainEvent); // Dùng IPublisher của MediatR
+                    await _publisher.Publish(domainEvent);
                 }
                 entity.ClearEvents();
             }
