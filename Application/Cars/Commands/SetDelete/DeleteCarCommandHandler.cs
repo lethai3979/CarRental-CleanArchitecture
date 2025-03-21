@@ -27,7 +27,7 @@ namespace Application.Cars.Commands.SetDelete
                 {
                     return Result.FailureResult(Error.NotFound("Car not found"));
                 }
-                car.IsDeleted = request.IsDeleted;
+                car.IsDeleted = true;
                 _unitOfWork.CarRepository.Update(car);
                 await _unitOfWork.SaveChangesAsync();
                 return Result.SuccessResult();

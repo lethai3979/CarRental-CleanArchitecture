@@ -7,13 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.Cars.Commands.Update
 {
     public sealed record UpdateCarCommand : ICommand<Result>
     {
-        public required CarId Id { get; set; }
+        [JsonIgnore]
+        public CarId? Id { get; set; }
         public required string Name { get; set; }
         public required int Seats { get; set; }
         public required decimal Price { get; set; }

@@ -1,4 +1,4 @@
-﻿using Application.Abstraction;
+﻿using Application.Abstraction.Queries;
 using Domain.Cars;
 using Domain.Shared;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Cars.Commands.SetDelete
+namespace Application.Cars.Queries.GetById
 {
-    public sealed record DeleteCarCommand(CarId Id) : ICommand<Result>;
+    public sealed record GetCarByIdQuery(CarId Id) : IQuery<Result<Car>>;
 }
