@@ -24,10 +24,6 @@ namespace Domain.Invoices
 
         public static Invoice Create(DateTime createDate, decimal total, BookingId bookingId)
         {
-            if (createDate != DateTime.Now)
-            {
-                throw new InvalidDataException("Create date invalid");
-            }
             if (total <= 0)
             {
                 throw new InvalidDataException("Total value invalid");

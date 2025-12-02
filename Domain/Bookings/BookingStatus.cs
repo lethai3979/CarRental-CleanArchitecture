@@ -8,10 +8,10 @@ namespace Domain.Bookings
 {
     public enum BookingStatus
     {
-        Pending,
-        Ongoing,
-        Confirmed,
-        RequestCancelled,
-        Cancelled
+        Pending, // Booking is created but not yet confirmed
+        Ongoing, // Confirmed and payment is received
+        Confirmed, // Booking is confirmed, not yet paid
+        Cancelled,
+        Refunded, 
     }
 }

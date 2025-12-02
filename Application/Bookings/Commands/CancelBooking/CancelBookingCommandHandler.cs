@@ -1,4 +1,5 @@
 ﻿using Application.Abstraction.Commands;
+using Application.Abstraction.Services;
 using Application.UnitOfWork;
 using Domain.Bookings;
 using Domain.Shared;
@@ -14,10 +15,12 @@ namespace Application.Bookings.Commands.CancelBooking
     internal class CancelBookingCommandHandler : ICommandHandler<CancelBookingCommand, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceService _invoiceService;
 
-        public CancelBookingCommandHandler(IUnitOfWork unitOfWork)
+        public CancelBookingCommandHandler(IUnitOfWork unitOfWork, IInvoiceService invoiceService)
         {
             _unitOfWork = unitOfWork;
+            _invoiceService = invoiceService;
         }
 
         public async Task<Result> Handle(CancelBookingCommand request, CancellationToken cancellationToken)
@@ -29,7 +32,19 @@ namespace Application.Bookings.Commands.CancelBooking
                 {
                     return Result.FailureResult(Error.NotFound("Booking not found"));
                 }
-                booking.UpdateStatus(BookingStatus.Cancelled);
+                if (booking.Status != BookingStatus.Ongoing)
+                {
+                    booking.UpdateStatus(BookingStatus.Cancelled);
+                }
+                else
+                {
+                    booking.UpdateStatus(BookingStatus.Refunded);
+                    var refundResult = await _invoiceService.CancelByBooking(booking);
+                    if (!refundResult.Success)
+                    {
+                        return refundResult;                        
+                    }
+                }
                 _unitOfWork.BookingRepository.Update(booking);
                 await _unitOfWork.SaveChangesAsync();
                 return Result.SuccessResult();

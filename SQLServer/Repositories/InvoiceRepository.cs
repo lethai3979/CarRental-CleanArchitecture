@@ -1,4 +1,6 @@
-﻿using Domain.Invoices;
+﻿using Domain.Bookings;
+using Domain.Invoices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,11 @@ namespace SQLServer.Repositories
     {
         public InvoiceRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<Invoice?> GetByBookingId(BookingId bookingId)
+        {
+            return await context.Invoices.FirstOrDefaultAsync(i => i.BookingId == bookingId && !i.IsDeleted);
         }
     }
 }

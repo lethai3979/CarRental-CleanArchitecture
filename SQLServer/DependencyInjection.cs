@@ -1,4 +1,5 @@
 ﻿using Application.Abstraction.Authentication;
+using Application.Abstraction.Services;
 using Application.UnitOfWork;
 using Domain.Bookings;
 using Domain.Cars;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SQLServer.Authentication;
 using SQLServer.Repositories;
+using SQLServer.Services;
 using SQLServer.UnitOfWorks;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,7 @@ namespace SQLServer
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IJWTProvider, JWTProvider>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
 
             services.AddIdentity<User, IdentityRole>(options =>
